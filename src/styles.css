@@ -1661,8 +1661,8 @@
   z-index: 30;
   display: grid;
   place-items: center;
-  background: oklch(1 0 0 / 0.88);
-  backdrop-filter: blur(3px);
+  background: oklch(0.22 0.09 300 / 0.92);
+  backdrop-filter: blur(4px);
   animation: transfer-loading-in 180ms ease-out both;
 }
 

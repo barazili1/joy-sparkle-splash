@@ -50,6 +50,7 @@ const tabs = [
 function TransferPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
+  const router = useRouter();
   const [amount, setAmount] = useState(search.amount ?? "");
   const [phone, setPhone] = useState(search.phone ?? "");
   const [activeTab, setActiveTab] = useState(0);

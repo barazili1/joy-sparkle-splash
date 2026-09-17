@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, PlusCircle } from "lucide-react";
+import { ProgressMark } from "@/components/progress-mark";
 import bankLogo from "@/assets/nbe-logo.png";
 import iconPhone from "@/assets/phone-inactive.png";
 import iconPhoneActive from "@/assets/phone-active.png";
@@ -52,6 +53,8 @@ function TransferPage() {
   const [amount, setAmount] = useState(search.amount ?? "");
   const [phone, setPhone] = useState(search.phone ?? "");
   const [activeTab, setActiveTab] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/[^\d]/g, "").replace(/^0+(?=\d)/, "");
@@ -59,7 +62,7 @@ function TransferPage() {
   };
 
   return (
-    <div className="ts" dir="rtl" lang="ar">
+    <div className={`ts${isLeaving ? " ts-leaving" : ""}`} dir="rtl" lang="ar">
       <header className="ts-hero" />
 
       <section className="ts-from">
@@ -161,8 +164,13 @@ function TransferPage() {
       <button
         type="button"
         className="ts-next"
-        onClick={() => {
+        disabled={isLoading}
+        onClick={async () => {
           if (!phone.trim() || !amount.trim()) return;
+          setIsLoading(true);
+          await new Promise((resolve) => window.setTimeout(resolve, 900));
+          setIsLeaving(true);
+          await new Promise((resolve) => window.setTimeout(resolve, 420));
           navigate({
             to: "/confirm-simulation",
             search: { amount, phone },
@@ -171,6 +179,12 @@ function TransferPage() {
       >
         التالي
       </button>
+
+      {isLoading && (
+        <div className="ts-loading" role="status" aria-label="جارٍ التحميل">
+          <ProgressMark size={88} />
+        </div>
+      )}
 
     </div>
   );

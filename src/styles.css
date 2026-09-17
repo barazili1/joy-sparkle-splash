@@ -1693,6 +1693,7 @@
 
 .confirm-simulation {
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
@@ -1700,15 +1701,20 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding: max(20px, env(safe-area-inset-top)) 22px max(18px, env(safe-area-inset-bottom));
-  background-color: var(--confirm-violet);
-  background-image: url("./assets/instapay-background.jpeg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   color: var(--confirm-paper);
   font-family: var(--font-arabic);
   animation: confirm-slide-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.confirm-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--confirm-violet);
+  background-image: url("./assets/instapay-background.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 @keyframes confirm-slide-in {

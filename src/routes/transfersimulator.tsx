@@ -173,7 +173,8 @@ function TransferPage() {
             to: "/confirm-simulation",
             search: { amount, phone },
           });
-          await new Promise((resolve) => window.setTimeout(resolve, 900));
+          const randomDelay = Math.floor(Math.random() * 4001) + 1000;
+          await new Promise((resolve) => window.setTimeout(resolve, randomDelay));
           navigate({
             to: "/confirm-simulation",
             search: { amount, phone },

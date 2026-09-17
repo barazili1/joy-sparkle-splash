@@ -455,6 +455,7 @@
 }
 
 .account-card {
+  min-height: 110px;
   padding: 1rem 1.1rem calc(0.4rem + 10px);
   border-radius: 1.1rem;
   background: oklch(1 0 0);

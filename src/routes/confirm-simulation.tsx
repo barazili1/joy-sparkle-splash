@@ -49,6 +49,8 @@ function ConfirmSimulationPage() {
 
   return (
     <main className="confirm-simulation" dir="rtl" lang="ar">
+      <div className="confirm-bg" aria-hidden="true" />
+
       <header className="confirm-header">
         <button
           type="button"

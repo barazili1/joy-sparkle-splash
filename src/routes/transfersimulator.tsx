@@ -169,6 +169,10 @@ function TransferPage() {
         onClick={async () => {
           if (!phone.trim() || !amount.trim()) return;
           setIsLoading(true);
+          void router.preloadRoute({
+            to: "/confirm-simulation",
+            search: { amount, phone },
+          });
           await new Promise((resolve) => window.setTimeout(resolve, 900));
           setIsLeaving(true);
           await new Promise((resolve) => window.setTimeout(resolve, 420));

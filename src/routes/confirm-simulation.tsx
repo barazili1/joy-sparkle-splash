@@ -1,0 +1,140 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ChevronDown, ChevronLeft, Info, MoveLeft } from "lucide-react";
+import backgroundAsset from "@/assets/instapay-background.jpeg";
+import bankLogo from "@/assets/nbe-logo.png";
+import ipnLogo from "@/assets/ipn-logo.png";
+import walletAsset from "@/assets/confirm-wallet.png.asset.json";
+
+type ConfirmSearch = {
+  amount?: string;
+  phone?: string;
+};
+
+export const Route = createFileRoute("/confirm-simulation")({
+  validateSearch: (search: Record<string, unknown>): ConfirmSearch => ({
+    ...(typeof search["amount"] === "string" ? { amount: search["amount"] } : {}),
+    ...(typeof search["phone"] === "string" ? { phone: search["phone"] } : {}),
+  }),
+  head: () => ({
+    meta: [
+      { title: "تأكيد التحويل | Instapay" },
+      { name: "description", content: "مراجعة وتأكيد تفاصيل تحويل الأموال عبر Instapay." },
+      { property: "og:title", content: "تأكيد التحويل | Instapay" },
+      {
+        property: "og:description",
+        content: "مراجعة وتأكيد تفاصيل تحويل الأموال عبر Instapay.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: ConfirmSimulationPage,
+});
+
+function formatMoney(value: number) {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function ConfirmSimulationPage() {
+  const navigate = useNavigate();
+  const { amount: amountSearch, phone: phoneSearch } = Route.useSearch();
+  const amount = Number((amountSearch ?? "2000").replaceAll(",", "")) || 2000;
+  const phone = phoneSearch?.trim() || "01030335696";
+  const fee = Math.max(0.5, amount * 0.001);
+  const total = amount + fee;
+
+  return (
+    <main
+      className="confirm-simulation"
+      dir="rtl"
+      lang="ar"
+      style={{ backgroundImage: `url(${backgroundAsset})` }}
+    >
+      <header className="confirm-header">
+        <button
+          type="button"
+          className="confirm-back"
+          aria-label="رجوع"
+          onClick={() =>
+            navigate({
+              to: "/transfersimulator",
+              search: {
+                ...(amountSearch ? { amount: amountSearch } : {}),
+                ...(phoneSearch ? { phone: phoneSearch } : {}),
+              },
+            })
+          }
+        >
+          <ChevronLeft strokeWidth={2.6} />
+        </button>
+        <h1>إرسال نقود</h1>
+      </header>
+
+      <section className="confirm-amount" aria-label="المبلغ المحول">
+        <strong dir="ltr">{formatMoney(amount)} EGP</strong>
+        <span>المبلغ المحول</span>
+      </section>
+
+      <section className="confirm-summary">
+        <div>
+          <span className="confirm-summary-label">
+            رسوم الخدمة <Info strokeWidth={2.2} />
+          </span>
+          <span dir="ltr">{formatMoney(fee)} EGP</span>
+        </div>
+        <div className="confirm-summary-total">
+          <strong>المبلغ الإجمالي</strong>
+          <strong dir="ltr">{formatMoney(total)} EGP</strong>
+        </div>
+      </section>
+
+      <section className="confirm-parties" aria-label="تفاصيل التحويل">
+        <article className="confirm-party confirm-sender">
+          <img src={bankLogo} alt="البنك الأهلي المصري" />
+          <div>
+            <span>من</span>
+            <p dir="ltr">mohamed.othman4279@instapay</p>
+            <small dir="ltr">CARD&nbsp; ****6150</small>
+          </div>
+        </article>
+
+        <div className="confirm-transfer-mark" aria-hidden="true">
+          <span />
+          <div><ChevronDown /><ChevronDown /></div>
+          <span />
+        </div>
+
+        <article className="confirm-party confirm-recipient">
+          <img src={walletAsset.url} alt="المحفظة الإلكترونية" />
+          <div>
+            <p><span>إلى</span> المحفظه الالكترونية</p>
+            <small>ايمان ا*** م*** س***</small>
+            <strong dir="ltr">{phone}</strong>
+          </div>
+        </article>
+      </section>
+
+      <button type="button" className="confirm-details">
+        <ChevronDown strokeWidth={2.4} />
+        <span>المزيد من التفاصيل</span>
+      </button>
+
+      <img className="confirm-ipn" src={ipnLogo} alt="IPN" />
+
+      <footer className="confirm-actions">
+        <button type="button" className="confirm-submit">تأكيد</button>
+        <button
+          type="button"
+          className="confirm-return"
+          aria-label="رجوع"
+          onClick={() => navigate({ to: "/transfersimulator", search: {} })}
+        >
+          <MoveLeft strokeWidth={2.5} />
+        </button>
+      </footer>
+    </main>
+  );
+}

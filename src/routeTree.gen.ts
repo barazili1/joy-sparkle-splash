@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BalanceRouteImport } from './routes/balance'
+import { Route as ConfirmSimulationRouteImport } from './routes/confirm-simulation'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as PinRouteImport } from './routes/pin'
 import { Route as TransfersimulatorRouteImport } from './routes/transfersimulator'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const BalanceRoute = BalanceRouteImport.update({
   id: '/balance',
   path: '/balance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmSimulationRoute = ConfirmSimulationRouteImport.update({
+  id: '/confirm-simulation',
+  path: '/confirm-simulation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -44,6 +50,7 @@ const TransfersimulatorRoute = TransfersimulatorRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/balance': typeof BalanceRoute
+  '/confirm-simulation': typeof ConfirmSimulationRoute
   '/home': typeof HomeRoute
   '/pin': typeof PinRoute
   '/transfersimulator': typeof TransfersimulatorRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/balance': typeof BalanceRoute
+  '/confirm-simulation': typeof ConfirmSimulationRoute
   '/home': typeof HomeRoute
   '/pin': typeof PinRoute
   '/transfersimulator': typeof TransfersimulatorRoute
@@ -59,21 +67,42 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/balance': typeof BalanceRoute
+  '/confirm-simulation': typeof ConfirmSimulationRoute
   '/home': typeof HomeRoute
   '/pin': typeof PinRoute
   '/transfersimulator': typeof TransfersimulatorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/balance' | '/home' | '/pin' | '/transfersimulator'
+  fullPaths:
+    | '/'
+    | '/balance'
+    | '/confirm-simulation'
+    | '/home'
+    | '/pin'
+    | '/transfersimulator'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/balance' | '/home' | '/pin' | '/transfersimulator'
-  id: '__root__' | '/' | '/balance' | '/home' | '/pin' | '/transfersimulator'
+  to:
+    | '/'
+    | '/balance'
+    | '/confirm-simulation'
+    | '/home'
+    | '/pin'
+    | '/transfersimulator'
+  id:
+    | '__root__'
+    | '/'
+    | '/balance'
+    | '/confirm-simulation'
+    | '/home'
+    | '/pin'
+    | '/transfersimulator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BalanceRoute: typeof BalanceRoute
+  ConfirmSimulationRoute: typeof ConfirmSimulationRoute
   HomeRoute: typeof HomeRoute
   PinRoute: typeof PinRoute
   TransfersimulatorRoute: typeof TransfersimulatorRoute
@@ -93,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/balance'
       fullPath: '/balance'
       preLoaderRoute: typeof BalanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirm-simulation': {
+      id: '/confirm-simulation'
+      path: '/confirm-simulation'
+      fullPath: '/confirm-simulation'
+      preLoaderRoute: typeof ConfirmSimulationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -122,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BalanceRoute: BalanceRoute,
+  ConfirmSimulationRoute: ConfirmSimulationRoute,
   HomeRoute: HomeRoute,
   PinRoute: PinRoute,
   TransfersimulatorRoute: TransfersimulatorRoute,

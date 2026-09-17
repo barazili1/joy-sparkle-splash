@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { ChevronDown, PlusCircle } from "lucide-react";
 import { ProgressMark } from "@/components/progress-mark";
 import bankLogo from "@/assets/nbe-logo.png";
@@ -50,6 +50,7 @@ const tabs = [
 function TransferPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
+  const router = useRouter();
   const [amount, setAmount] = useState(search.amount ?? "");
   const [phone, setPhone] = useState(search.phone ?? "");
   const [activeTab, setActiveTab] = useState(0);
@@ -62,6 +63,7 @@ function TransferPage() {
   };
 
   return (
+    <>
     <div className={`ts${isLeaving ? " ts-leaving" : ""}`} dir="rtl" lang="ar">
       <header className="ts-hero" />
 
@@ -168,6 +170,10 @@ function TransferPage() {
         onClick={async () => {
           if (!phone.trim() || !amount.trim()) return;
           setIsLoading(true);
+          void router.preloadRoute({
+            to: "/confirm-simulation",
+            search: { amount, phone },
+          });
           await new Promise((resolve) => window.setTimeout(resolve, 900));
           setIsLeaving(true);
           await new Promise((resolve) => window.setTimeout(resolve, 420));
@@ -180,12 +186,13 @@ function TransferPage() {
         التالي
       </button>
 
-      {isLoading && (
-        <div className="ts-loading" role="status" aria-label="جارٍ التحميل">
-          <ProgressMark size={88} />
-        </div>
-      )}
-
     </div>
+
+    {isLoading && (
+      <div className="ts-loading" role="status" aria-label="جارٍ التحميل">
+        <ProgressMark size={88} />
+      </div>
+    )}
+    </>
   );
 }

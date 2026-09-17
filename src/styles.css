@@ -146,7 +146,7 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background-color: oklch(0.48 0.3 300);
     color: var(--color-foreground);
     margin: 0;
   }

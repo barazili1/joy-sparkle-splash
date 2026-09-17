@@ -809,7 +809,7 @@
 
   .account-card {
     min-height: 0;
-    padding: 0.62rem 0.82rem 0.22rem;
+    padding: 0.62rem 0.82rem calc(0.22rem + 10px);
     border-radius: 0.9rem;
     box-shadow: none;
   }

@@ -1703,7 +1703,7 @@
   padding: max(20px, env(safe-area-inset-top)) 22px max(18px, env(safe-area-inset-bottom));
   color: var(--confirm-paper);
   font-family: var(--font-arabic);
-  animation: confirm-slide-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: confirm-slide-in 460ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .confirm-bg {

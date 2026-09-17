@@ -55,7 +55,6 @@ function TransferPage() {
   const [phone, setPhone] = useState(search.phone ?? "");
   const [activeTab, setActiveTab] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLeaving, setIsLeaving] = useState(false);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/[^\d]/g, "").replace(/^0+(?=\d)/, "");
@@ -64,7 +63,7 @@ function TransferPage() {
 
   return (
     <>
-    <div className={`ts${isLeaving ? " ts-leaving" : ""}`} dir="rtl" lang="ar">
+    <div className="ts" dir="rtl" lang="ar">
       <header className="ts-hero" />
 
       <section className="ts-from">
@@ -175,8 +174,6 @@ function TransferPage() {
             search: { amount, phone },
           });
           await new Promise((resolve) => window.setTimeout(resolve, 900));
-          setIsLeaving(true);
-          await new Promise((resolve) => window.setTimeout(resolve, 420));
           navigate({
             to: "/confirm-simulation",
             search: { amount, phone },

@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, ChevronLeft, Info, MoveLeft } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, ChevronDown, ChevronLeft, ChevronUp, Info } from "lucide-react";
 import backgroundAsset from "@/assets/instapay-background.jpeg";
 import bankLogo from "@/assets/nbe-logo.png";
 import ipnLogo from "@/assets/ipn-logo.png";
@@ -40,6 +41,7 @@ function formatMoney(value: number) {
 
 function ConfirmSimulationPage() {
   const navigate = useNavigate();
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const { amount: amountSearch, phone: phoneSearch } = Route.useSearch();
   const amount = Number((amountSearch ?? "2000").replaceAll(",", "")) || 2000;
   const phone = phoneSearch?.trim() || "01030335696";
@@ -117,10 +119,27 @@ function ConfirmSimulationPage() {
         </article>
       </section>
 
-      <button type="button" className="confirm-details">
-        <ChevronDown strokeWidth={2.4} />
-        <span>المزيد من التفاصيل</span>
+      <button
+        type="button"
+        className="confirm-details"
+        aria-expanded={detailsOpen}
+        onClick={() => setDetailsOpen((open) => !open)}
+      >
+        {detailsOpen ? <ChevronUp strokeWidth={2.4} /> : <ChevronDown strokeWidth={2.4} />}
+        <span>{detailsOpen ? "إخفاء التفاصيل" : "المزيد من التفاصيل"}</span>
       </button>
+
+      {detailsOpen && (
+        <section className="confirm-extra-details" aria-label="المزيد من تفاصيل التحويل">
+          <div>
+            <span>غرض التحويل</span>
+            <strong>مصاريف المعيشة</strong>
+          </div>
+          <div>
+            <span>ملاحظة</span>
+          </div>
+        </section>
+      )}
 
       <img className="confirm-ipn" src={ipnLogo} alt="IPN" />
 
@@ -132,7 +151,7 @@ function ConfirmSimulationPage() {
           aria-label="رجوع"
           onClick={() => navigate({ to: "/transfersimulator", search: {} })}
         >
-          <MoveLeft strokeWidth={2.5} />
+          <ArrowRight strokeWidth={2.5} />
         </button>
       </footer>
     </main>

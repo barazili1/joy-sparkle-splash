@@ -63,6 +63,7 @@ function TransferPage() {
   };
 
   return (
+    <>
     <div className={`ts${isLeaving ? " ts-leaving" : ""}`} dir="rtl" lang="ar">
       <header className="ts-hero" />
 
@@ -185,12 +186,13 @@ function TransferPage() {
         التالي
       </button>
 
-      {isLoading && (
-        <div className="ts-loading" role="status" aria-label="جارٍ التحميل">
-          <ProgressMark size={88} />
-        </div>
-      )}
-
     </div>
+
+    {isLoading && (
+      <div className="ts-loading" role="status" aria-label="جارٍ التحميل">
+        <ProgressMark size={88} />
+      </div>
+    )}
+    </>
   );
 }

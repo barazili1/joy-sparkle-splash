@@ -36,6 +36,7 @@ import iconWallet from "../assets/wallet.png";
 import iconPerson from "../assets/person.png";
 import iconClipboard from "../assets/clipboard.png";
 import bankLogo from "../assets/nbe-logo.png";
+import confirmWallet from "../assets/confirm-wallet.png.asset.json";
 
 const pageImages = [
   homeHeader,
@@ -62,6 +63,7 @@ const pageImages = [
   iconPerson,
   iconClipboard,
   bankLogo,
+  confirmWallet.url,
 ];
 
 function NotFoundComponent() {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, PlusCircle } from "lucide-react";
 import bankLogo from "@/assets/nbe-logo.png";
 import iconPhone from "@/assets/phone-inactive.png";
@@ -16,6 +16,10 @@ import iconPerson from "@/assets/person.png";
 import iconClipboard from "@/assets/clipboard.png";
 
 export const Route = createFileRoute("/transfersimulator")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    amount: typeof search.amount === "string" ? search.amount : undefined,
+    phone: typeof search.phone === "string" ? search.phone : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "إرسال نقود | Instapay" },
@@ -38,7 +42,10 @@ const tabs = [
 ];
 
 function TransferPage() {
-  const [amount, setAmount] = useState("");
+  const search = Route.useSearch();
+  const navigate = useNavigate();
+  const [amount, setAmount] = useState(search.amount ?? "");
+  const [phone, setPhone] = useState(search.phone ?? "");
   const [activeTab, setActiveTab] = useState(0);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +113,13 @@ function TransferPage() {
 
         <div className="ts-input-row">
           <div className="ts-input">
-            <input type="tel" placeholder="رقم الهاتف" dir="rtl" />
+            <input
+              type="tel"
+              placeholder="رقم الهاتف"
+              dir="rtl"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value.replace(/[^\d+]/g, ""))}
+            />
             <span className="ts-input-icon">
               <img src={iconClipboard} alt="" />
             </span>
@@ -140,7 +153,19 @@ function TransferPage() {
         <span>أضف سبب التحويل</span>
       </button>
 
-      <button type="button" className="ts-next">التالي</button>
+      <button
+        type="button"
+        className="ts-next"
+        onClick={() => {
+          if (!phone.trim() || !amount.trim()) return;
+          navigate({
+            to: "/confirm-simulation",
+            search: { amount, phone },
+          });
+        }}
+      >
+        التالي
+      </button>
 
     </div>
   );

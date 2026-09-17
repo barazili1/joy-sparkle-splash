@@ -1653,6 +1653,33 @@
   box-shadow: 0 10px 24px -12px oklch(0.4 0.22 300 / 0.6);
 }
 
+.ts-next:disabled { cursor: wait; }
+
+.ts-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  background: oklch(1 0 0 / 0.88);
+  backdrop-filter: blur(3px);
+  animation: transfer-loading-in 180ms ease-out both;
+}
+
+.ts {
+  transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1), opacity 420ms ease;
+}
+
+.ts.ts-leaving {
+  transform: translateX(100%);
+  opacity: 0.25;
+}
+
+@keyframes transfer-loading-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* ===== Transfer confirmation ===== */
 :root {
   --confirm-ink: oklch(0.17 0.01 285);
@@ -1674,11 +1701,19 @@
   overflow-y: auto;
   padding: max(20px, env(safe-area-inset-top)) 22px max(18px, env(safe-area-inset-bottom));
   background-color: var(--confirm-violet);
+  background-image: url("./assets/instapay-background.jpeg");
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--confirm-paper);
   font-family: var(--font-arabic);
+  animation: confirm-slide-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes confirm-slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
 .confirm-header {
@@ -1850,7 +1885,7 @@
 .confirm-ipn {
   width: 78px;
   height: auto;
-  margin: auto auto 26px;
+  margin: 20px auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
 }
@@ -1892,7 +1927,12 @@
   .confirm-summary { margin-top: 9px; }
   .confirm-parties { margin-top: 9px; }
   .confirm-details { margin-top: 10px; }
-  .confirm-ipn { margin-bottom: 10px; }
+  .confirm-ipn { margin: 20px auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts,
+  .confirm-simulation { transition: none; animation: none; }
 }
 
 

@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronLeft, ChevronUp, Info } from "lucide-react";
-import backgroundAsset from "@/assets/instapay-background.jpeg";
 import bankLogo from "@/assets/nbe-logo.png";
 import ipnLogo from "@/assets/ipn-logo.png";
 import walletAsset from "@/assets/confirm-wallet.png.asset.json";
@@ -49,12 +48,7 @@ function ConfirmSimulationPage() {
   const total = amount + fee;
 
   return (
-    <main
-      className="confirm-simulation"
-      dir="rtl"
-      lang="ar"
-      style={{ backgroundImage: `url(${backgroundAsset})` }}
-    >
+    <main className="confirm-simulation" dir="rtl" lang="ar">
       <header className="confirm-header">
         <button
           type="button"

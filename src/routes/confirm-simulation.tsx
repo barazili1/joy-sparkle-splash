@@ -61,7 +61,10 @@ function ConfirmSimulationPage() {
           onClick={() =>
             navigate({
               to: "/transfersimulator",
-              search: { amount: amountSearch, phone: phoneSearch },
+              search: {
+                ...(amountSearch ? { amount: amountSearch } : {}),
+                ...(phoneSearch ? { phone: phoneSearch } : {}),
+              },
             })
           }
         >

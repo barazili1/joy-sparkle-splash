@@ -12,8 +12,8 @@ type ConfirmSearch = {
 
 export const Route = createFileRoute("/confirm-simulation")({
   validateSearch: (search: Record<string, unknown>): ConfirmSearch => ({
-    amount: typeof search.amount === "string" ? search.amount : undefined,
-    phone: typeof search.phone === "string" ? search.phone : undefined,
+    ...(typeof search["amount"] === "string" ? { amount: search["amount"] } : {}),
+    ...(typeof search["phone"] === "string" ? { phone: search["phone"] } : {}),
   }),
   head: () => ({
     meta: [
@@ -127,7 +127,7 @@ function ConfirmSimulationPage() {
           type="button"
           className="confirm-return"
           aria-label="رجوع"
-          onClick={() => navigate({ to: "/transfersimulator" })}
+          onClick={() => navigate({ to: "/transfersimulator", search: {} })}
         >
           <MoveLeft strokeWidth={2.5} />
         </button>

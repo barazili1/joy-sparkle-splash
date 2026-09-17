@@ -15,10 +15,15 @@ import iconWalletActive from "@/assets/wallet-active.png";
 import iconPerson from "@/assets/person.png";
 import iconClipboard from "@/assets/clipboard.png";
 
+type TransferSearch = {
+  amount?: string;
+  phone?: string;
+};
+
 export const Route = createFileRoute("/transfersimulator")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    amount: typeof search.amount === "string" ? search.amount : undefined,
-    phone: typeof search.phone === "string" ? search.phone : undefined,
+  validateSearch: (search: Record<string, unknown>): TransferSearch => ({
+    ...(typeof search["amount"] === "string" ? { amount: search["amount"] } : {}),
+    ...(typeof search["phone"] === "string" ? { phone: search["phone"] } : {}),
   }),
   head: () => ({
     meta: [

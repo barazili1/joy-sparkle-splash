@@ -177,7 +177,7 @@ function HomePage() {
               className="service-tile"
               key={label}
               onClick={() => {
-                if (label === "ارسال نقود") navigate({ to: "/transfersimulator" });
+                if (label === "ارسال نقود") navigate({ to: "/transfersimulator", search: {} });
               }}
             >
               <img className="service-icon" src={image} alt="" />
